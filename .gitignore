@@ -1,0 +1,20 @@
+# created by virtualenv automatically
+# Python虚拟环境
+venv/
+.env
+.cfg
+include/
+Lib/
+Scripts/
+
+# PyCharm项目文件
+.idea/
+
+# Python编译文件
+__pycache__/
+*.pyc
+*.pyo
+
+# 操作系统生成的文件
+.DS_Store
+Thumbs.db
