@@ -2,7 +2,7 @@
 # Python虚拟环境
 venv/
 .env
-.cfg
+pyvenv.cfg
 include/
 Lib/
 Scripts/

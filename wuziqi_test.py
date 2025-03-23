@@ -16,7 +16,7 @@ white_color = [255, 255, 255]
 # 定义棋盘这个类
 class Game(object):
 
-    def __init__(self, size=9):
+    def __init__(self, size=9, extra_t=int(16)):
         self.size = size
         self._board = [[EMPTY] * size for _ in range(size)]  # 初始化棋盘
         self._hands = [[0] * size for _ in range(size)]  # 用0初始化手数
@@ -24,8 +24,8 @@ class Game(object):
         self.hands = 0
         self.current_player = BLACK
         # 游戏规则参数, extra_t代表棋盘上最多保留的棋子数
-        self.extra_t = int(16)  # int()防止出现小数点什么的
-        self.flag = False  # 判断游戏是否结束
+        self.extra_t = extra_t  # int()防止出现小数点什么的
+        self.flag = False  # 判断游戏是否结束，True 表示结束
 
     # 重置棋盘
     def reset(self):
@@ -51,12 +51,16 @@ class Game(object):
 
             # 检查是否获胜
             if self.check_winner(row, col):
-                print(f"Player {self.current_player} wins!")
+                # print(f"Player {self.current_player} wins!")
                 self.flag = True
             else:
                 self.current_player = 3 - self.current_player  # 切换玩家
             return True
         return False  # 表示落子失败
+
+    def is_full(self):
+        # 判断棋盘是否占满
+        return all(cell != EMPTY for row in self._board for cell in row)
 
     # 使用pygame.draw()画出棋盘和落子, 同时标注距离棋子消失的手数
     # Agent对弈时可以忽略此绘制函数
@@ -141,7 +145,7 @@ def main():
             if event.type == pygame.QUIT:
                 running = False
             # pygame.MOUSEBUTTONDOWN表示鼠标的键被按下
-            elif event.type == pygame.MOUSEBUTTONUP and \
+            elif event.type == pygame.MOUSEBUTTONDOWN and \
                     event.button == 1:  # button表示鼠标左键
                 x, y = event.pos  # 拿到鼠标当前在窗口上的位置坐标
                 # 将鼠标的(x, y)窗口坐标，转化换为棋盘上的坐标
